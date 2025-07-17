@@ -1,8 +1,32 @@
-// Get visitor's name
-const visitorName = prompt("Please enter your name:");
+// Check if user is logged in
+function checkLogin() {
+  const username = localStorage.getItem("username");
+  if (!username && window.location.pathname !== "/login.html") {
+    window.location.href = "login.html";
+  }
+  return username;
+}
+
+// Handle login form
+const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+  loginForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+
+    // Simple validation - in real world, you'd want proper authentication
+    if (username) {
+      localStorage.setItem("username", username);
+      window.location.href = "index.html";
+    }
+  });
+}
+
+// Update visitor name if on main page
 const nameElement = document.getElementById("visitorName");
 if (nameElement) {
-  nameElement.textContent = visitorName || "there";
+  const username = checkLogin();
+  nameElement.textContent = username || "there";
 }
 
 // Form validation and submission
